@@ -1,0 +1,14 @@
+.autocomplete-input {
+  &__input-container {
+    display: inline-block;
+    position: relative;
+  }
+
+  &__label {
+    margin-right: 0.5rem;
+  }
+
+  &__input {
+    padding: 0.5rem 1rem;
+  }
+}
