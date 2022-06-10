@@ -1,9 +1,9 @@
 import { FC, MouseEvent } from 'react';
-import { Data } from '../../mocks/mockApiData';
+import { Character } from '../../types/api';
 import classes from './DropDownList.module.scss';
 
 interface Props {
-  data: Data[];
+  data: Character[];
   loading: boolean;
   onClick: (e: MouseEvent<HTMLLIElement>) => void;
 }
