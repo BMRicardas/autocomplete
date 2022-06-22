@@ -1,14 +1,14 @@
-import { FC, MouseEvent } from 'react';
+import { FC } from 'react';
 import { Character } from '../../types/api';
-import classes from './DropDownList.module.scss';
+import classes from './DropdownList.module.scss';
 
 interface Props {
   data: Character[];
   loading: boolean;
-  onClick: (e: MouseEvent<HTMLLIElement>) => void;
+  onClick: (char: Character) => void;
 }
 
-const DropDownList: FC<Props> = ({ data, loading, onClick }) => {
+const DropdownList: FC<Props> = ({ data, loading, onClick }) => {
   return (
     <ul className={classes['dropdown-list']}>
       {loading ? (
@@ -17,7 +17,10 @@ const DropDownList: FC<Props> = ({ data, loading, onClick }) => {
         <li className={classes['dropdown-list__item']}>No data</li>
       ) : (
         data.map((char) => (
-          <li key={char.char_id} onClick={onClick} className={classes['dropdown-list__item']}>
+          <li
+            key={char.char_id}
+            onClick={() => onClick(char)}
+            className={classes['dropdown-list__item']}>
             {char.name}
           </li>
         ))
@@ -26,4 +29,4 @@ const DropDownList: FC<Props> = ({ data, loading, onClick }) => {
   );
 };
 
-export default DropDownList;
+export default DropdownList;

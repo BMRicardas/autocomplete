@@ -1,7 +1,9 @@
-import { ChangeEvent, FC, MouseEvent, useState } from 'react';
-import DropDownList from '../../components/DropDownList/DropDownList';
+import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react';
+import DropdownList from '../../components/DropdownList/DropdownList';
 import { config } from '../../config/app';
 import useCharacters from '../../hooks/useCharacters';
+import { useOnClickOutside } from '../../hooks/useOnClickOutside';
+import { Character } from '../../types/api';
 import classes from './AutocompleteInput.module.scss';
 
 interface Props {
@@ -15,17 +17,24 @@ const AutocompleteInput: FC<Props> = ({ id, label }) => {
   const [isDropdownListVisible, setIsDropdownListVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isLoading, characters, setCharacters] = useCharacters(config, searchQuery, MIN_CHARACTERS);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleInputFocus = () => setIsDropdownListVisible(true);
 
-  const handleInputBlur = () => setIsDropdownListVisible(false);
+  const handleClose = () => setIsDropdownListVisible(false);
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value);
+  const onKeyDown = ({ key }: KeyboardEvent<HTMLDivElement>) => {
+    if (key === 'Escape') {
+      handleClose();
+    }
   };
 
-  const handleClick = (e: MouseEvent<HTMLLIElement>) => {
-    console.log(e);
+  const handleInputChange = ({ target }: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(target.value);
+  };
+
+  const handleClick = ({ char_id }: Character) => {
+    console.log(char_id);
   };
 
   const handleClear = () => {
@@ -33,12 +42,17 @@ const AutocompleteInput: FC<Props> = ({ id, label }) => {
     setCharacters([]);
   };
 
+  useOnClickOutside(containerRef, handleClose);
+
   return (
     <div className={classes['autocomplete-input']}>
       <label htmlFor={id} className={classes['autocomplete-input__label']}>
         {label}
       </label>
-      <div className={classes['autocomplete-input__input-container']}>
+      <div
+        className={classes['autocomplete-input__input-container']}
+        ref={containerRef}
+        onKeyDown={onKeyDown}>
         <input
           type="text"
           name=""
@@ -47,12 +61,15 @@ const AutocompleteInput: FC<Props> = ({ id, label }) => {
           value={searchQuery}
           placeholder={`Enter minimum ${MIN_CHARACTERS} characters`}
           autoComplete="off"
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
+          onClick={handleInputFocus}
           onChange={handleInputChange}
         />
         {isDropdownListVisible && searchQuery.length >= MIN_CHARACTERS && (
-          <DropDownList data={characters} loading={isLoading} onClick={handleClick} />
+          <DropdownList
+            data={characters}
+            loading={isLoading}
+            onClick={(character) => handleClick(character)}
+          />
         )}
       </div>
       <button onClick={handleClear}>Clear</button>
