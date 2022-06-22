@@ -17,7 +17,6 @@ const useCharacters = (config: Config, inputValue: string, minCharacters: number
             name: inputValue
           }
         });
-        console.log(response.data);
         setData(response.data);
       } catch (error) {
         console.error('Failed to fetch chracters data', error);

@@ -1,5 +1,6 @@
 interface Endpoints {
   characters: string;
+  character: string;
 }
 
 export interface Config {
@@ -10,6 +11,7 @@ export interface Config {
 export const config: Config = {
   baseURL: 'https://www.breakingbadapi.com/api/',
   endpoints: {
-    characters: 'characters'
+    characters: 'characters',
+    character: 'characters/:id'
   }
 };

@@ -1,4 +1,5 @@
 import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react';
+import CharacterCard from '../../components/CharacterCard/CharacterCard';
 import DropdownList from '../../components/DropdownList/DropdownList';
 import { config } from '../../config/app';
 import useCharacters from '../../hooks/useCharacters';
@@ -16,6 +17,7 @@ const MIN_CHARACTERS = 3;
 const AutocompleteInput: FC<Props> = ({ id, label }) => {
   const [isDropdownListVisible, setIsDropdownListVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [characterId, setCharacterId] = useState('');
   const [isLoading, characters, setCharacters] = useCharacters(config, searchQuery, MIN_CHARACTERS);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -33,47 +35,53 @@ const AutocompleteInput: FC<Props> = ({ id, label }) => {
     setSearchQuery(target.value);
   };
 
-  const handleClick = ({ char_id }: Character) => {
-    console.log(char_id);
+  const handleClick = ({ char_id, name }: Character) => {
+    setCharacterId(char_id.toString());
+    setSearchQuery(name);
+    handleClose();
   };
 
   const handleClear = () => {
     setSearchQuery('');
     setCharacters([]);
+    setCharacterId('');
   };
 
   useOnClickOutside(containerRef, handleClose);
 
   return (
-    <div className={classes['autocomplete-input']}>
-      <label htmlFor={id} className={classes['autocomplete-input__label']}>
-        {label}
-      </label>
-      <div
-        className={classes['autocomplete-input__input-container']}
-        ref={containerRef}
-        onKeyDown={onKeyDown}>
-        <input
-          type="text"
-          name=""
-          id={id}
-          className={classes['autocomplete-input__input']}
-          value={searchQuery}
-          placeholder={`Enter minimum ${MIN_CHARACTERS} characters`}
-          autoComplete="off"
-          onClick={handleInputFocus}
-          onChange={handleInputChange}
-        />
-        {isDropdownListVisible && searchQuery.length >= MIN_CHARACTERS && (
-          <DropdownList
-            data={characters}
-            loading={isLoading}
-            onClick={(character) => handleClick(character)}
+    <>
+      <div className={classes['autocomplete-input']}>
+        <label htmlFor={id} className={classes['autocomplete-input__label']}>
+          {label}
+        </label>
+        <div
+          className={classes['autocomplete-input__input-container']}
+          ref={containerRef}
+          onKeyDown={onKeyDown}>
+          <input
+            type="text"
+            name=""
+            id={id}
+            className={classes['autocomplete-input__input']}
+            value={searchQuery}
+            placeholder={`Enter minimum ${MIN_CHARACTERS} characters`}
+            autoComplete="off"
+            onClick={handleInputFocus}
+            onChange={handleInputChange}
           />
-        )}
+          {isDropdownListVisible && searchQuery.length >= MIN_CHARACTERS && (
+            <DropdownList
+              data={characters}
+              loading={isLoading}
+              onClick={(character) => handleClick(character)}
+            />
+          )}
+        </div>
+        <button onClick={handleClear}>Clear</button>
       </div>
-      <button onClick={handleClear}>Clear</button>
-    </div>
+      {characterId && <CharacterCard id={characterId} />}
+    </>
   );
 };
 export default AutocompleteInput;
