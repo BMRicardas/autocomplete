@@ -47,7 +47,7 @@ const CharacterCard: FC<Props> = ({ id }) => {
       </div>
       <h2 className={classes['character-card__title']}>{data.name}</h2>
       <div className={classes['character-card__info']}>
-        <p>Birthday: {data.birthday} </p>
+        <p>Birthday: {data.birthday}</p>
         Ocupation:
         <ul>
           {data.occupation.map((ocupation, index) => {
