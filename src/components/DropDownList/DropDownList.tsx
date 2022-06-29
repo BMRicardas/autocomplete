@@ -20,7 +20,8 @@ const DropdownList: FC<Props> = ({ data, loading, onClick }) => {
           <li
             key={char.char_id}
             onClick={() => onClick(char)}
-            className={classes['dropdown-list__item']}>
+            className={classes['dropdown-list__item']}
+          >
             {char.name}
           </li>
         ))

@@ -65,7 +65,8 @@ const AutocompleteInput: FC<Props> = ({ id, label }) => {
         <div
           className={classes['autocomplete-input__input-container']}
           ref={containerRef}
-          onKeyDown={onKeyDown}>
+          onKeyDown={onKeyDown}
+        >
           <input
             type="text"
             name=""
