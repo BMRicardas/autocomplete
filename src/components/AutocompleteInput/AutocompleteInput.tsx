@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, KeyboardEvent, useRef, useState } from 'react';
-import CharacterCard from '../../components/CharacterCard/CharacterCard';
-import DropdownList from '../../components/DropdownList/DropdownList';
+import CharacterCard from '../CharacterCard/CharacterCard';
+import DropdownList from '../DropdownList/DropdownList';
 import { config } from '../../config/app';
 import useCharacters from '../../hooks/useCharacters';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';

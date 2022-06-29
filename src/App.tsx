@@ -1,5 +1,5 @@
-import AutocompleteInput from './ui/AutocompleteInput/AutocompleteInput';
-import Layout from './ui/Layout/Layout';
+import AutocompleteInput from './components/AutocompleteInput/AutocompleteInput';
+import Layout from './components/Layout/Layout';
 
 const App = () => {
   return (
