@@ -42,12 +42,10 @@ const CharacterCard: FC<Props> = ({ id }) => {
 
   return (
     <div className={classes['character-card']}>
-      <h2 className={classes['character-card__title']}>{data.name}</h2>
       <div className={classes['character-card__image-container']}>
-        <div className={classes['character-card__image']}>
-          <img src={data.img} alt={data.name} />
-        </div>
+        <img src={data.img} alt={data.name} className={classes['character-card__image']} />
       </div>
+      <h2 className={classes['character-card__title']}>{data.name}</h2>
       <div className={classes['character-card__info']}>
         <p>Birthday: {data.birthday} </p>
         Ocupation:
@@ -58,7 +56,15 @@ const CharacterCard: FC<Props> = ({ id }) => {
         </ul>
         <p>Nickname: {data.nickname}</p>
         <p>Status: {data.status}</p>
-        <p>Portrayed by {data.portrayed}</p>
+        <p>
+          Portrayed by{' '}
+          <a
+            href={`https://www.google.com/search?q=${data.portrayed.replaceAll(' ', '+')}`}
+            target="_blank"
+            rel="noopener noreferrer">
+            {data.portrayed}
+          </a>
+        </p>
       </div>
     </div>
   );
