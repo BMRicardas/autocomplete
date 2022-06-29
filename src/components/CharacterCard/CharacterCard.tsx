@@ -61,8 +61,7 @@ const CharacterCard: FC<Props> = ({ id }) => {
           <a
             href={`https://www.google.com/search?q=${data.portrayed.replaceAll(' ', '+')}`}
             target="_blank"
-            rel="noopener noreferrer"
-          >
+            rel="noopener noreferrer">
             {data.portrayed}
           </a>
         </p>
