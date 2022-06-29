@@ -6,19 +6,26 @@ import useCharacters from '../../hooks/useCharacters';
 import { useOnClickOutside } from '../../hooks/useOnClickOutside';
 import { Character } from '../../types/api';
 import classes from './AutocompleteInput.module.scss';
+import useDebounce from '../../hooks/useDebounce';
 
 interface Props {
   id: string;
   label: string;
 }
 
-const MIN_CHARACTERS = 3;
+const MIN_CHARACTERS = 1;
 
 const AutocompleteInput: FC<Props> = ({ id, label }) => {
   const [isDropdownListVisible, setIsDropdownListVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [characterId, setCharacterId] = useState('');
-  const [isLoading, characters, setCharacters] = useCharacters(config, searchQuery, MIN_CHARACTERS);
+  const debouncedValue = useDebounce(searchQuery, 500);
+  const [isLoading, characters, setCharacters] = useCharacters(
+    config,
+    debouncedValue,
+    MIN_CHARACTERS
+  );
+
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleInputFocus = () => setIsDropdownListVisible(true);
